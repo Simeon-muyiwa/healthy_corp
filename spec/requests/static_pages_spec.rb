@@ -10,10 +10,9 @@ describe "Static pages" do
 			expect(page).to have_selector('h1', :text => 'Healthy Corps')
 		end
         
-         it "should have the right title" do
+        it "should have the base title" do
 			visit root_path
-			page.should have_selector('title', 
-				     :text => "Health and Wellness Application | Home" )
+			expect(page).to have_title("Health and Wellness Application")
 		end
 	end
 
