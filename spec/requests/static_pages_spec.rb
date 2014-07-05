@@ -2,63 +2,49 @@ require 'spec_helper'
 
 describe "Static pages" do
 
-	
-	describe "Home page" do
+  subject { page }
 
-		it "should have the content 'Healthy Corps'" do
-			visit '/'
-			expect(page).to have_selector('h1', :text => 'Healthy Corps')
-		end
-        
-        it "should have the base title" do
-			visit root_path
-			expect(page).to have_title("Health and Wellness Application")
-		end
-	     it "should not have a custom page title" do
-             visit root_path
-             expect(page).not_to have_title('| Home')
-      end
-	end
+  describe "Home page" do
+    before { visit root_path }
 
-	describe "Help page" do
+    it { should have_content('Healthy Corps') }
+    it { should have_title(full_title('')) }
+    it { should_not have_title('| Home') }
+  end
 
-		it "should have the content 'Help'" do
-			visit '/static_pages/help'
-			expect(page).to have_selector('h1', :text => 'Help')
-		end
+  describe "Help page" do
+    before { visit help_path }
 
-		it "should have the right title" do
-			visit '/static_pages/help'
-			page.should have_selector('title', 
-				     :text => "Health and Wellness Application | Help" )
-		end
-	end
+    it { should have_content('Help') }
+    it { should have_title(full_title('Help')) }
+  end
 
-	describe "About page" do
+  describe "About page" do
+    before { visit about_path }
 
-		it "should have the content 'About Us'" do
-			visit '/static_pages/about'
-			expect(page).to have_selector('h1', :text => 'About Us')
-		end
+    it { should have_content('About') }
+    it { should have_title(full_title('About Us')) }
+  end
 
-		it "should have the right title" do
-			visit '/static_pages/about'
-			page.should have_selector('title', 
-				    :text => "Health and Wellness Application | About Us" )
-		end
-	end
+  describe "Contact page" do
+    before { visit contact_path }
 
-	describe "Contact Page" do
+    it { should have_content('Contact') }
+    it { should have_title(full_title('Contact')) }
+  end
 
-		it "should have the content 'Contact'" do
-			visit '/static_pages/contact'
-			expect(page).to have_selector('h1', :text => 'Contact')
-		end
-
-		it "should have the right title" do
-			visit '/static_pages/contact'
-			page.should have_selector('title', 
-				  :text => "Health and Wellness Application | Contact" ) 
-		end
-	end
+   it "should have the right links on the layout" do
+    visit root_path
+    click_link "About"
+    expect(page).to have_title(full_title('About Us'))
+    click_link "Help"
+    expect(page).to have_title(full_title('Help'))
+    click_link "Contact"
+    expect(page).to have_title(full_title('Contact'))
+    click_link "Home"
+    click_link "Sign up now!"
+    expect(page).to have_title(full_title('Sign up'))
+    click_link "Healthy Corps"
+    expect(page).to have_content 'Healthy Corps'
+  end
 end
